@@ -64,14 +64,15 @@ def main():
                 model = load_model()
                 if model:
                     # Prepare features for prediction
-                    X = df_processed[feature_cols]
+                    X = df_processed[feature_cols].copy() # Keep the feature columns data
 
                     # Predict Performance Rating
                     predictions = model.predict(X)
 
-                    # Display Results
-                    results_df = pd.DataFrame({'Predicted Performance Rating': predictions})
-                    st.subheader("Prediction Results")
+                    # Display Results - Include Feature Columns
+                    results_df = X.copy() # Start with the feature columns data
+                    results_df['Predicted Performance Rating'] = predictions # Add the prediction column
+                    st.subheader("Prediction Results with Input Features")
                     st.dataframe(results_df)
 
         except Exception as e:
